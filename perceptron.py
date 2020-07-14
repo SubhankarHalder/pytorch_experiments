@@ -18,12 +18,14 @@ class Net(nn.Module):
         """
         super(Net, self).__init__()
         self.fc1 = nn.Linear(1, 1)
+        self.relu = nn.ReLU()
 
     def forward(self, x):
         """
         Forward Method
         """
         x = self.fc1(x)
+        x = self.relu(x)
         return x
 
 
@@ -53,6 +55,7 @@ if __name__ == "__main__":
 
     print("Parameters after training: ", list(net.parameters()))
     sample_input = torch.tensor([5], dtype=torch.float32)
+    net.eval()
     print(f"Prediction for test input {sample_input[0]} is {net(sample_input)[0]}")
 
 
