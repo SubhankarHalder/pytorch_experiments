@@ -40,8 +40,8 @@ if __name__ == "__main__":
     optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.5)
     data = [(1, 5), (2, 7), (3, 9), (4, 11), (5, 13), (6, 15)]
     for epoch in range(100):
-        for i, data2 in enumerate(data):
-            X, Y = iter(data2)
+        for i, samples in enumerate(data):
+            X, Y = iter(samples)
             X = torch.tensor([X], dtype=torch.float32, requires_grad=True)
             Y = torch.tensor([Y], dtype=torch.float32, requires_grad=True)
             optimizer.zero_grad()
