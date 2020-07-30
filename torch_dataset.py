@@ -1,5 +1,6 @@
 import torch
 from torch.utils.data import Dataset
+from torchvision import transforms
 torch.manual_seed(1)
 
 
@@ -20,6 +21,41 @@ class toy_set(Dataset):
         return self.len
 
 
-our_dataset = toy_set()
-for x, y in our_dataset:
-    print(f" X: {x} and Y: {y}")        
+class add_mult():
+    def __init__(self, addx=1, muly=2):
+        self.addx = addx
+        self.muly = muly
+    
+    def __call__(self, sample):
+        x = sample[0]
+        y = sample[1]
+        x = x + self.addx
+        y = y * self.muly
+        sample = x, y
+        return sample
+
+
+class mult():
+    def __init__(self, mult=100):
+        self.mult = mult
+
+    def __call__(self, sample):
+        x = sample[0]
+        y = sample[1]
+        x = self.mult*x
+        y = self.mult*y
+        sample = x, y
+        return sample
+
+
+data_transfrom = transforms.Compose([add_mult(), mult()])
+data_set = toy_set()
+print(data_transfrom(data_set[0]))
+
+compose_data_set = toy_set(transform=data_transfrom)
+
+for i in range(3):
+    x, y = data_set[i]
+    print(x, y)
+    x_, y_ = compose_data_set[i]
+    print(x_, y_)
